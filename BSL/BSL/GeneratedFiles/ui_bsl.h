@@ -45,7 +45,7 @@ public:
     QToolButton *runToolButton;
     QSpacerItem *verticalSpacer_2;
     QFrame *line;
-    QLabel *label;
+    QLabel *scenesLabel;
     QMenuBar *menuBar;
     QMenu *menu_F;
     QStatusBar *statusBar;
@@ -54,7 +54,7 @@ public:
     {
         if (BSLClass->objectName().isEmpty())
             BSLClass->setObjectName(QStringLiteral("BSLClass"));
-        BSLClass->resize(1004, 646);
+        BSLClass->resize(979, 656);
         loadSencesAction = new QAction(BSLClass);
         loadSencesAction->setObjectName(QStringLiteral("loadSencesAction"));
         QIcon icon;
@@ -136,21 +136,21 @@ public:
 
         horizontalLayout->addWidget(line);
 
-        label = new QLabel(centralWidget);
-        label->setObjectName(QStringLiteral("label"));
+        scenesLabel = new QLabel(centralWidget);
+        scenesLabel->setObjectName(QStringLiteral("scenesLabel"));
         QFont font;
         font.setPointSize(20);
         font.setBold(true);
         font.setWeight(75);
-        label->setFont(font);
-        label->setAlignment(Qt::AlignCenter);
+        scenesLabel->setFont(font);
+        scenesLabel->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout->addWidget(label);
+        horizontalLayout->addWidget(scenesLabel);
 
         BSLClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(BSLClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1004, 23));
+        menuBar->setGeometry(QRect(0, 0, 979, 23));
         menu_F = new QMenu(menuBar);
         menu_F->setObjectName(QStringLiteral("menu_F"));
         BSLClass->setMenuBar(menuBar);
@@ -228,12 +228,14 @@ public:
 #endif // QT_NO_STATUSTIP
         runToolButton->setText(QApplication::translate("BSLClass", "\345\220\257\345\212\250\345\256\232\344\275\215", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
-        label->setToolTip(QApplication::translate("BSLClass", "\347\234\237\345\256\236\345\234\272\346\231\257\346\230\276\347\244\272\345\214\272\345\237\237", Q_NULLPTR));
+        scenesLabel->setToolTip(QApplication::translate("BSLClass", "\347\234\237\345\256\236\345\234\272\346\231\257\346\230\276\347\244\272\345\214\272\345\237\237", Q_NULLPTR));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_STATUSTIP
-        label->setStatusTip(QApplication::translate("BSLClass", "\347\234\237\345\256\236\345\234\272\346\231\257\346\230\276\347\244\272\345\214\272\345\237\237", Q_NULLPTR));
+        scenesLabel->setStatusTip(QApplication::translate("BSLClass", "\347\234\237\345\256\236\345\234\272\346\231\257\346\230\276\347\244\272\345\214\272\345\237\237", Q_NULLPTR));
 #endif // QT_NO_STATUSTIP
-        label->setText(QApplication::translate("BSLClass", "\350\257\267\345\212\240\350\275\275\345\234\272\346\231\257\357\274\201", Q_NULLPTR));
+        scenesLabel->setText(QApplication::translate("BSLClass", "1.\345\212\240\350\275\275\345\234\272\346\231\257\n"
+"2.\345\212\240\350\275\275\346\265\213\350\257\225\346\226\207\344\273\266\n"
+"3.\345\220\257\345\212\250\345\256\232\344\275\215(\351\234\200\350\256\276\347\275\256\345\217\202\346\225\260)", Q_NULLPTR));
         menu_F->setTitle(QApplication::translate("BSLClass", "\346\226\207\344\273\266[&F]", Q_NULLPTR));
     } // retranslateUi
 

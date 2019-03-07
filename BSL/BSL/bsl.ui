@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1004</width>
-    <height>646</height>
+    <width>979</width>
+    <height>656</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -147,7 +147,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="scenesLabel">
       <property name="font">
        <font>
         <pointsize>20</pointsize>
@@ -162,7 +162,9 @@
        <string>真实场景显示区域</string>
       </property>
       <property name="text">
-       <string>请加载场景！</string>
+       <string>1.加载场景
+2.加载测试文件
+3.启动定位(需设置参数)</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -176,7 +178,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1004</width>
+     <width>979</width>
      <height>23</height>
     </rect>
    </property>
@@ -267,8 +269,8 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>29</x>
-     <y>51</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>29</x>

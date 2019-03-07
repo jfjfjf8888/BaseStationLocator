@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>selectScenseClass</class>
+ <widget class="QDialog" name="selectScenseClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>274</width>
+    <height>192</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>选择场景</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QListWidget" name="listWidget">
+     <property name="iconSize">
+      <size>
+       <width>45</width>
+       <height>45</height>
+      </size>
+     </property>
+     <property name="gridSize">
+      <size>
+       <width>64</width>
+       <height>64</height>
+      </size>
+     </property>
+     <property name="viewMode">
+      <enum>QListView::IconMode</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>listWidget</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>selectScenseClass</receiver>
+   <slot>treeDoubleClicked(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>106</x>
+     <y>81</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>201</x>
+     <y>343</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>listWidget</sender>
+   <signal>clicked(QModelIndex)</signal>
+   <receiver>selectScenseClass</receiver>
+   <slot>treeDoubleClicked(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>160</x>
+     <y>86</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>174</x>
+     <y>200</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>treeDoubleClicked(QModelIndex)</slot>
+ </slots>
+</ui>
