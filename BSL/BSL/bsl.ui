@@ -6,18 +6,339 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>1004</width>
+    <height>646</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>BSL</string>
+   <string>无线信号源定系统</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <item>
+       <widget class="QToolButton" name="loadSencesToolButton">
+        <property name="toolTip">
+         <string>加载由EvaluatorGUI生成的场景</string>
+        </property>
+        <property name="statusTip">
+         <string>加载由EvaluatorGUI生成的场景</string>
+        </property>
+        <property name="text">
+         <string>加载场景</string>
+        </property>
+        <property name="icon">
+         <iconset resource="bsl.qrc">
+          <normaloff>:/BSL/Icon/load.png</normaloff>:/BSL/Icon/load.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="resetToolButton">
+        <property name="toolTip">
+         <string>清空所有数据</string>
+        </property>
+        <property name="statusTip">
+         <string>清空所有数据</string>
+        </property>
+        <property name="text">
+         <string>重置</string>
+        </property>
+        <property name="icon">
+         <iconset resource="bsl.qrc">
+          <normaloff>:/BSL/Icon/reset.png</normaloff>:/BSL/Icon/reset.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="loadFileToolButton">
+        <property name="toolTip">
+         <string>加载测试文件</string>
+        </property>
+        <property name="statusTip">
+         <string>加载测试文件</string>
+        </property>
+        <property name="text">
+         <string>加载文件</string>
+        </property>
+        <property name="icon">
+         <iconset resource="bsl.qrc">
+          <normaloff>:/BSL/Icon/open.png</normaloff>:/BSL/Icon/open.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="runToolButton">
+        <property name="toolTip">
+         <string>开始定位</string>
+        </property>
+        <property name="statusTip">
+         <string>开始定位</string>
+        </property>
+        <property name="text">
+         <string>启动定位</string>
+        </property>
+        <property name="icon">
+         <iconset resource="bsl.qrc">
+          <normaloff>:/BSL/Icon/launch.png</normaloff>:/BSL/Icon/launch.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>真实场景显示区域</string>
+      </property>
+      <property name="statusTip">
+       <string>真实场景显示区域</string>
+      </property>
+      <property name="text">
+       <string>请加载场景！</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1004</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_F">
+    <property name="title">
+     <string>文件[&amp;F]</string>
+    </property>
+    <addaction name="loadSencesAction"/>
+    <addaction name="resetAction"/>
+    <addaction name="loadFileAction"/>
+    <addaction name="runAction"/>
+    <addaction name="separator"/>
+    <addaction name="exitAction"/>
+   </widget>
+   <addaction name="menu_F"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="loadSencesAction">
+   <property name="icon">
+    <iconset resource="bsl.qrc">
+     <normaloff>:/BSL/Icon/load.png</normaloff>:/BSL/Icon/load.png</iconset>
+   </property>
+   <property name="text">
+    <string>加载场景</string>
+   </property>
+   <property name="statusTip">
+    <string>加载由EvaluatorGUI生成的场景</string>
+   </property>
+  </action>
+  <action name="resetAction">
+   <property name="icon">
+    <iconset resource="bsl.qrc">
+     <normaloff>:/BSL/Icon/reset.png</normaloff>:/BSL/Icon/reset.png</iconset>
+   </property>
+   <property name="text">
+    <string>重置</string>
+   </property>
+   <property name="statusTip">
+    <string>清空所有数据</string>
+   </property>
+  </action>
+  <action name="loadFileAction">
+   <property name="icon">
+    <iconset resource="bsl.qrc">
+     <normaloff>:/BSL/Icon/open.png</normaloff>:/BSL/Icon/open.png</iconset>
+   </property>
+   <property name="text">
+    <string>加载文件</string>
+   </property>
+   <property name="statusTip">
+    <string>加载测试文件</string>
+   </property>
+  </action>
+  <action name="runAction">
+   <property name="icon">
+    <iconset resource="bsl.qrc">
+     <normaloff>:/BSL/Icon/launch.png</normaloff>:/BSL/Icon/launch.png</iconset>
+   </property>
+   <property name="text">
+    <string>启动定位</string>
+   </property>
+   <property name="statusTip">
+    <string>开始定位</string>
+   </property>
+  </action>
+  <action name="exitAction">
+   <property name="icon">
+    <iconset resource="bsl.qrc">
+     <normaloff>:/BSL/Icon/exit.png</normaloff>:/BSL/Icon/exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>退出</string>
+   </property>
+   <property name="statusTip">
+    <string>退出</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
   <include location="bsl.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>loadSencesAction</sender>
+   <signal>triggered()</signal>
+   <receiver>loadSencesToolButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>29</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>29</x>
+     <y>51</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>resetAction</sender>
+   <signal>triggered()</signal>
+   <receiver>resetToolButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>29</x>
+     <y>95</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>loadFileAction</sender>
+   <signal>triggered()</signal>
+   <receiver>loadFileToolButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>29</x>
+     <y>139</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>runAction</sender>
+   <signal>triggered()</signal>
+   <receiver>runToolButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>29</x>
+     <y>183</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>exitAction</sender>
+   <signal>triggered()</signal>
+   <receiver>BSLClass</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>501</x>
+     <y>322</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

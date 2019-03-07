@@ -1,4 +1,9 @@
 <RCC>
-    <qresource prefix="BSL">
+    <qresource prefix="/BSL">
+        <file>Icon/launch.png</file>
+        <file>Icon/load.png</file>
+        <file>Icon/open.png</file>
+        <file>Icon/reset.png</file>
+        <file>Icon/exit.png</file>
     </qresource>
 </RCC>
