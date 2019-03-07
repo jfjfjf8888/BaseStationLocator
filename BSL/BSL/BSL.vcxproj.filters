@@ -24,12 +24,12 @@
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{c7d35db0-87b0-409e-ac18-ab9afdcb9db5}</UniqueIdentifier>
+      <UniqueIdentifier>{27432fc5-0e57-47a5-b80e-7f65a1db71a5}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{32a0f70c-0e08-4182-9e0c-2bcfef005bbb}</UniqueIdentifier>
+      <UniqueIdentifier>{0faeca44-ab95-41ae-a599-6afb83fd0967}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -70,11 +70,11 @@
     <CustomBuild Include="bsl.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="selectscense.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="selectscense.ui">
       <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="selectscense.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
