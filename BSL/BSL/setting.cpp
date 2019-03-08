@@ -26,3 +26,11 @@ void setting::initCommunicationStandardComboBox(InputDataAnalysiser  * pAnalysis
 		ui.communicationStandardComboBox->addItem(comboBoxText);
 	}
 }
+
+void setting::on_okButton_clicked()
+{
+	emit(dataInputed(ui.communicationStandardComboBox->currentText(), 
+		             ui.communicationStandardComboBox->currentIndex(), 
+		             ui.predictiveStepSizelineEdit->text().toFloat()));
+	this->close();
+}

@@ -74,6 +74,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_setting.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="predictresult.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_predictresult.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_predictresult.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="bsl.h">
@@ -97,6 +106,12 @@
     <CustomBuild Include="setting.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="predictresult.hpp">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="predictResultDisplay.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_bsl.h">
@@ -113,6 +128,12 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_setting.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_predictResultDisplay.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

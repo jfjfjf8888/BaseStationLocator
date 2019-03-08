@@ -24,6 +24,8 @@ BSL::BSL(QWidget *parent)
 
 	connect(this, SIGNAL(plsInitCommunicationStandardComboBox(InputDataAnalysiser *)), 
 		    &m_setting, SLOT(initCommunicationStandardComboBox(InputDataAnalysiser *)));
+	connect(&m_setting, SIGNAL(dataInputed(QString, int , float)),
+		    this, SLOT(slots_dataInputed(QString, int, float)));
 }
 
 BSL::~BSL()
@@ -49,6 +51,10 @@ void BSL::init()
 	ui.scenesLabel->clear();
 	ui.scenesLabel->setText(u8"1.加载场景\n2.加载测试文件\n3.设置参数\n4.开始定位");
 	m_fileContextList.clear();
+
+	m_currentStandard.clear();
+	m_currentIndex = 0;
+	m_currentStepLenth = 0;
 }
 
 //加载场景按钮
@@ -101,6 +107,15 @@ void BSL::on_loadFileToolButton_clicked()
 	}
 	m_pAnalysiser = new InputDataAnalysiser();
 	m_pAnalysiser->setData(m_fileContextList);
+	//校验场景与导入实测数据的测试点个数
+	if (m_nTestPointCount != m_pAnalysiser->getTestPointCount()) {
+		QMessageBox::critical(0, u8"错误", u8"场景中的测试点数量和实测数据测试点数量不符。");
+		delete m_pAnalysiser;
+		m_pAnalysiser = NULL;
+		m_fileContextList.clear();
+	}
+
+	ui.statusBar->showMessage(u8"预处理测试数据完成。");
 	emit(plsInitCommunicationStandardComboBox(m_pAnalysiser));
 }
 
@@ -112,7 +127,12 @@ void BSL:: on_settingToolButton_clicked()
 //运行按钮
 void BSL::on_runToolButton_clicked()
 {
-
+	prw.setScenes(m_screenshot);
+	prw.setProportion(m_proportion);
+	prw.setStepLenth(m_currentStepLenth);
+	prw.setScenesSize(m_lenth, m_width, m_r);
+	prw.setCommunicationStandard(m_currentStandard);
+	prw.show();
 }
 
 void BSL::slots_scenseSelected(QString path)
@@ -174,4 +194,15 @@ void BSL::slots_scenseSelected(QString path)
 	ui.scenesLabel->setPixmap(*pixmap);
 
 	//ui.scenesPointLabel->setPixmap(m_screenshot);
+}
+
+void BSL::slots_dataInputed(QString standard, int index, float stepLenth)
+{
+	ui.currentsettingLabel->setText(
+		u8"当前制式:" + standard + u8",当前步长:" + 
+		QString::number(stepLenth) + u8"米"
+	);
+	m_currentStandard = standard;
+	m_currentIndex = index;
+	m_currentStepLenth = stepLenth;
 }

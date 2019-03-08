@@ -47,7 +47,7 @@ public:
     {
         if (settingDialog->objectName().isEmpty())
             settingDialog->setObjectName(QStringLiteral("settingDialog"));
-        settingDialog->resize(276, 104);
+        settingDialog->resize(276, 117);
         verticalLayout = new QVBoxLayout(settingDialog);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         horizontalLayout_2 = new QHBoxLayout();
@@ -117,8 +117,6 @@ public:
 
 
         retranslateUi(settingDialog);
-        QObject::connect(okButton, SIGNAL(clicked()), settingDialog, SLOT(accept()));
-        QObject::connect(cancelButton, SIGNAL(clicked()), settingDialog, SLOT(reject()));
 
         QMetaObject::connectSlotsByName(settingDialog);
     } // setupUi
@@ -128,6 +126,7 @@ public:
         settingDialog->setWindowTitle(QApplication::translate("settingDialog", "\345\217\202\346\225\260\350\256\276\347\275\256", Q_NULLPTR));
         label->setText(QApplication::translate("settingDialog", "\345\210\266\345\274\217\357\274\232", Q_NULLPTR));
         label_2->setText(QApplication::translate("settingDialog", "\346\255\245\351\225\277\357\274\232", Q_NULLPTR));
+        predictiveStepSizelineEdit->setText(QApplication::translate("settingDialog", "0.05", Q_NULLPTR));
         label_3->setText(QApplication::translate("settingDialog", "\347\261\263", Q_NULLPTR));
         okButton->setText(QApplication::translate("settingDialog", "\347\241\256\345\256\232", Q_NULLPTR));
         cancelButton->setText(QApplication::translate("settingDialog", "\345\217\226\346\266\210", Q_NULLPTR));

@@ -47,7 +47,9 @@ public:
     QToolButton *runToolButton;
     QSpacerItem *verticalSpacer_2;
     QFrame *line;
+    QVBoxLayout *verticalLayout_2;
     QLabel *scenesLabel;
+    QLabel *currentsettingLabel;
     QMenuBar *menuBar;
     QMenu *menu_F;
     QStatusBar *statusBar;
@@ -151,6 +153,9 @@ public:
 
         horizontalLayout->addWidget(line);
 
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         scenesLabel = new QLabel(centralWidget);
         scenesLabel->setObjectName(QStringLiteral("scenesLabel"));
         QFont font;
@@ -160,7 +165,18 @@ public:
         scenesLabel->setFont(font);
         scenesLabel->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout->addWidget(scenesLabel);
+        verticalLayout_2->addWidget(scenesLabel);
+
+        currentsettingLabel = new QLabel(centralWidget);
+        currentsettingLabel->setObjectName(QStringLiteral("currentsettingLabel"));
+        currentsettingLabel->setMinimumSize(QSize(0, 0));
+        currentsettingLabel->setMaximumSize(QSize(16777215, 30));
+        currentsettingLabel->setAlignment(Qt::AlignCenter);
+
+        verticalLayout_2->addWidget(currentsettingLabel);
+
+
+        horizontalLayout->addLayout(verticalLayout_2);
 
         BSLClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(BSLClass);
@@ -262,6 +278,7 @@ public:
 "2.\345\212\240\350\275\275\346\265\213\350\257\225\346\226\207\344\273\266\n"
 "3.\350\256\276\347\275\256\345\217\202\346\225\260\n"
 "4.\345\274\200\345\247\213\345\256\232\344\275\215", Q_NULLPTR));
+        currentsettingLabel->setText(QString());
         menu_F->setTitle(QApplication::translate("BSLClass", "\346\226\207\344\273\266[&F]", Q_NULLPTR));
     } // retranslateUi
 

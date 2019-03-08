@@ -6,6 +6,8 @@
 #include "selectscense.h"
 #include "Analysiser.h"
 #include "setting.h"
+#include "predictresult.hpp"
+#include "define.h"
 
 class BSL : public QMainWindow
 {
@@ -32,6 +34,9 @@ private slots:
 	void on_runToolButton_clicked();
 public slots:
 	void slots_scenseSelected(QString);
+
+	//设置窗口数据有输入
+	void slots_dataInputed(QString standard, int index, float stepLenth);
 signals:
 	void plsInitCommunicationStandardComboBox(InputDataAnalysiser * pAnalysiser);
 private:
@@ -58,6 +63,17 @@ private:
 	QVector<QByteArray> m_fileContextList;
 
 	InputDataAnalysiser * m_pAnalysiser;
+
+	//设置信息
+	QString m_currentStandard;
+	int m_currentIndex;
+	float m_currentStepLenth;
+
+	//预测参数
+	predictParameter pp;
+
+	//预测结果
+	predictResult prw;
 };
 
 #endif // BSL_H
