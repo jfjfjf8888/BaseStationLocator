@@ -11,8 +11,8 @@ BSL::BSL(QWidget *parent)
 	ui.setupUi(this);
 
 	//连接选择场景界面信号和槽
-	connect(&m_selectScense, SIGNAL(signal_scenseSelected(QString)), 
-		    this, SLOT(slots_scenseSelected(QString)));
+	connect(&m_selectScense, SIGNAL(signal_scenseSelected(QString)),
+		this, SLOT(slots_scenseSelected(QString)));
 
 	//固定窗口大小。加载实景时，有的图片会异常的大
 	//由于我用了布局管理，限制图片大小无效，布局管理
@@ -21,6 +21,9 @@ BSL::BSL(QWidget *parent)
 	this->setFixedSize(this->width(), this->height());
 
 	init();
+
+	connect(this, SIGNAL(plsInitCommunicationStandardComboBox(InputDataAnalysiser *)), 
+		    &m_setting, SLOT(initCommunicationStandardComboBox(InputDataAnalysiser *)));
 }
 
 BSL::~BSL()
@@ -41,10 +44,11 @@ void BSL::init()
 	m_nTestPointCount = 0;
 	m_pointList.clear();
 
-	m_testPointFilePath.clear();
+	m_testPointFilePathList.clear();
 
 	ui.scenesLabel->clear();
-	ui.scenesLabel->setText(u8"1.加载场景\n2.加载测试文件\n3.启动定位(需设置参数)");
+	ui.scenesLabel->setText(u8"1.加载场景\n2.加载测试文件\n3.设置参数\n4.开始定位");
+	m_fileContextList.clear();
 }
 
 //加载场景按钮
@@ -62,36 +66,60 @@ void BSL::on_resetToolButton_clicked()
 //加载文件按钮
 void BSL::on_loadFileToolButton_clicked()
 {
-	m_testPointFilePath = QFileDialog::getOpenFileName(
+	m_testPointFilePathList = QFileDialog::getOpenFileNames(
 		this,
 		tr(u8"打开文件"),
 		tr(u8"."),
 		tr(u8"二进制文件 (*.bin)"));
 
-	if (m_testPointFilePath.isEmpty())
-	{
+	if (m_testPointFilePathList.isEmpty()) {
 		ui.statusBar->showMessage(u8"取消");
 		return;
 	}
 
-	QFileInfo file(m_testPointFilePath);
-	if (file.exists() == false)
-	{
-		ui.statusBar->showMessage(u8"错误，文件不存在");
-		return;
+	m_fileContextList.clear();
+	for (int n = 0; n < m_testPointFilePathList.size(); ++n) {
+		//验证文件是否存在
+		QFileInfo fileInfo(m_testPointFilePathList.at(n));
+		if ( false == fileInfo.exists()) {
+			ui.statusBar->showMessage(u8"错误，文件不存在");
+			return;
+		}
+		//文件存在，准备开始读取数据
+		QFile file(m_testPointFilePathList.at(n));
+		if (file.open(QIODevice::ReadOnly)) {
+			m_fileContextList.push_back(file.readAll());
+			file.close();
+			continue;
+		}
+		QMessageBox::critical(0, u8"错误", u8"文件打开失败。");
 	}
+	//数据读取正确，将读取的数据传入分析器
+	if (!m_pAnalysiser) {
+		delete m_pAnalysiser;
+		m_pAnalysiser = NULL;
+	}
+	m_pAnalysiser = new InputDataAnalysiser();
+	m_pAnalysiser->setData(m_fileContextList);
+	emit(plsInitCommunicationStandardComboBox(m_pAnalysiser));
+}
+
+void BSL:: on_settingToolButton_clicked()
+{
+	m_setting.exec();
 }
 
 //运行按钮
 void BSL::on_runToolButton_clicked()
 {
-	
+
 }
 
 void BSL::slots_scenseSelected(QString path)
 {
-	QDomDocument doc;
+	init();
 
+	QDomDocument doc;
 	QFile file(path);
 	if (!file.open(QIODevice::ReadOnly))
 		return;
@@ -104,16 +132,13 @@ void BSL::slots_scenseSelected(QString path)
 	QDomElement signature_element = docElem.toElement(); // try to convert the node to an element. 
 														 //校验签名
 	QString ss = signature_element.nodeName();
-	if (signature_element.nodeName().contains("scenes"))
-	{
-		if (QString(u8"SC File Format") != signature_element.attribute("signature"))
-		{//校验失败
+	if (signature_element.nodeName().contains("scenes")) {
+		if (QString(u8"SC File Format") != signature_element.attribute("signature")) {//校验失败
 			QMessageBox::critical(0, u8"错误", u8"文件签名校验失败。");
 			return;
 		}
 	}
-	else
-	{//校验失败
+	else {//校验失败
 		QMessageBox::critical(0, u8"错误", u8"文件签名校验失败。");
 		return;
 	}
@@ -124,13 +149,10 @@ void BSL::slots_scenseSelected(QString path)
 	QString currentPath = qApp->applicationDirPath() + "/Scenes/";
 #endif //  _DEBUG
 
-	while (!node.isNull())
-	{
+	while (!node.isNull()) {
 		QDomElement element = node.toElement(); // try to convert the node to an element.  
-		if (!element.isNull())
-		{
-			if (QString("info") == element.nodeName())
-			{
+		if (!element.isNull()) {
+			if (QString("info") == element.nodeName()) {
 				m_scenceName = element.attribute("name");
 				m_picPath = currentPath + element.attribute("picPath");
 				m_scenceType = element.attribute("scenceType").toInt();;

@@ -99,6 +99,32 @@
        </widget>
       </item>
       <item>
+       <widget class="QToolButton" name="settingToolButton">
+        <property name="toolTip">
+         <string>参数设置</string>
+        </property>
+        <property name="statusTip">
+         <string>参数设置</string>
+        </property>
+        <property name="text">
+         <string>启动定位</string>
+        </property>
+        <property name="icon">
+         <iconset resource="bsl.qrc">
+          <normaloff>:/BSL/Icon/setting.png</normaloff>:/BSL/Icon/setting.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QToolButton" name="runToolButton">
         <property name="toolTip">
          <string>开始定位</string>
@@ -164,7 +190,8 @@
       <property name="text">
        <string>1.加载场景
 2.加载测试文件
-3.启动定位(需设置参数)</string>
+3.设置参数
+4.开始定位</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -189,6 +216,7 @@
     <addaction name="loadSencesAction"/>
     <addaction name="resetAction"/>
     <addaction name="loadFileAction"/>
+    <addaction name="settingAction"/>
     <addaction name="runAction"/>
     <addaction name="separator"/>
     <addaction name="exitAction"/>
@@ -254,6 +282,15 @@
    </property>
    <property name="statusTip">
     <string>退出</string>
+   </property>
+  </action>
+  <action name="settingAction">
+   <property name="icon">
+    <iconset resource="bsl.qrc">
+     <normaloff>:/BSL/Icon/setting.png</normaloff>:/BSL/Icon/setting.png</iconset>
+   </property>
+   <property name="text">
+    <string>设置</string>
    </property>
   </action>
  </widget>
@@ -339,6 +376,22 @@
     <hint type="destinationlabel">
      <x>501</x>
      <y>322</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>settingAction</sender>
+   <signal>triggered()</signal>
+   <receiver>settingToolButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>29</x>
+     <y>183</y>
     </hint>
    </hints>
   </connection>

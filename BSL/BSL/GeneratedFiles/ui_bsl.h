@@ -36,12 +36,14 @@ public:
     QAction *loadFileAction;
     QAction *runAction;
     QAction *exitAction;
+    QAction *settingAction;
     QWidget *centralWidget;
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *verticalLayout;
     QToolButton *loadSencesToolButton;
     QToolButton *resetToolButton;
     QToolButton *loadFileToolButton;
+    QToolButton *settingToolButton;
     QToolButton *runToolButton;
     QSpacerItem *verticalSpacer_2;
     QFrame *line;
@@ -80,6 +82,11 @@ public:
         QIcon icon4;
         icon4.addFile(QStringLiteral(":/BSL/Icon/exit.png"), QSize(), QIcon::Normal, QIcon::Off);
         exitAction->setIcon(icon4);
+        settingAction = new QAction(BSLClass);
+        settingAction->setObjectName(QStringLiteral("settingAction"));
+        QIcon icon5;
+        icon5.addFile(QStringLiteral(":/BSL/Icon/setting.png"), QSize(), QIcon::Normal, QIcon::Off);
+        settingAction->setIcon(icon5);
         centralWidget = new QWidget(BSLClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         horizontalLayout = new QHBoxLayout(centralWidget);
@@ -113,6 +120,14 @@ public:
         loadFileToolButton->setAutoRaise(true);
 
         verticalLayout->addWidget(loadFileToolButton);
+
+        settingToolButton = new QToolButton(centralWidget);
+        settingToolButton->setObjectName(QStringLiteral("settingToolButton"));
+        settingToolButton->setIcon(icon5);
+        settingToolButton->setIconSize(QSize(32, 32));
+        settingToolButton->setAutoRaise(true);
+
+        verticalLayout->addWidget(settingToolButton);
 
         runToolButton = new QToolButton(centralWidget);
         runToolButton->setObjectName(QStringLiteral("runToolButton"));
@@ -162,6 +177,7 @@ public:
         menu_F->addAction(loadSencesAction);
         menu_F->addAction(resetAction);
         menu_F->addAction(loadFileAction);
+        menu_F->addAction(settingAction);
         menu_F->addAction(runAction);
         menu_F->addSeparator();
         menu_F->addAction(exitAction);
@@ -172,6 +188,7 @@ public:
         QObject::connect(loadFileAction, SIGNAL(triggered()), loadFileToolButton, SLOT(click()));
         QObject::connect(runAction, SIGNAL(triggered()), runToolButton, SLOT(click()));
         QObject::connect(exitAction, SIGNAL(triggered()), BSLClass, SLOT(close()));
+        QObject::connect(settingAction, SIGNAL(triggered()), settingToolButton, SLOT(click()));
 
         QMetaObject::connectSlotsByName(BSLClass);
     } // setupUi
@@ -199,6 +216,7 @@ public:
 #ifndef QT_NO_STATUSTIP
         exitAction->setStatusTip(QApplication::translate("BSLClass", "\351\200\200\345\207\272", Q_NULLPTR));
 #endif // QT_NO_STATUSTIP
+        settingAction->setText(QApplication::translate("BSLClass", "\350\256\276\347\275\256", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         loadSencesToolButton->setToolTip(QApplication::translate("BSLClass", "\345\212\240\350\275\275\347\224\261EvaluatorGUI\347\224\237\346\210\220\347\232\204\345\234\272\346\231\257", Q_NULLPTR));
 #endif // QT_NO_TOOLTIP
@@ -221,6 +239,13 @@ public:
 #endif // QT_NO_STATUSTIP
         loadFileToolButton->setText(QApplication::translate("BSLClass", "\345\212\240\350\275\275\346\226\207\344\273\266", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
+        settingToolButton->setToolTip(QApplication::translate("BSLClass", "\345\217\202\346\225\260\350\256\276\347\275\256", Q_NULLPTR));
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_STATUSTIP
+        settingToolButton->setStatusTip(QApplication::translate("BSLClass", "\345\217\202\346\225\260\350\256\276\347\275\256", Q_NULLPTR));
+#endif // QT_NO_STATUSTIP
+        settingToolButton->setText(QApplication::translate("BSLClass", "\345\220\257\345\212\250\345\256\232\344\275\215", Q_NULLPTR));
+#ifndef QT_NO_TOOLTIP
         runToolButton->setToolTip(QApplication::translate("BSLClass", "\345\274\200\345\247\213\345\256\232\344\275\215", Q_NULLPTR));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_STATUSTIP
@@ -235,7 +260,8 @@ public:
 #endif // QT_NO_STATUSTIP
         scenesLabel->setText(QApplication::translate("BSLClass", "1.\345\212\240\350\275\275\345\234\272\346\231\257\n"
 "2.\345\212\240\350\275\275\346\265\213\350\257\225\346\226\207\344\273\266\n"
-"3.\345\220\257\345\212\250\345\256\232\344\275\215(\351\234\200\350\256\276\347\275\256\345\217\202\346\225\260)", Q_NULLPTR));
+"3.\350\256\276\347\275\256\345\217\202\346\225\260\n"
+"4.\345\274\200\345\247\213\345\256\232\344\275\215", Q_NULLPTR));
         menu_F->setTitle(QApplication::translate("BSLClass", "\346\226\207\344\273\266[&F]", Q_NULLPTR));
     } // retranslateUi
 

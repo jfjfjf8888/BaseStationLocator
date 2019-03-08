@@ -6,5 +6,6 @@
         <file>Icon/reset.png</file>
         <file>Icon/exit.png</file>
         <file>Icon/scenes.png</file>
+        <file>Icon/setting.png</file>
     </qresource>
 </RCC>
