@@ -16,10 +16,10 @@ public:
 
 	void setScenesSize(float lenth, float width, float r);
 
-	void setEvaluateMode(QString str) {
-		m_evaluateMode = str;
-		//this->setWindowTitle(QString(u8"预测评估结果") + " [" + str + "]");
-	}
+	//void setEvaluateMode(QString str) {
+	//	m_evaluateMode = str;
+	//	//this->setWindowTitle(QString(u8"预测评估结果") + " [" + str + "]");
+	//}
 
 	void setCommunicationStandard(QString str) {
 		m_communicationStandard = str;
@@ -44,14 +44,10 @@ public:
 		m_stepLenth = stepLen;
 	}
 
-	//画各个颜色代表含义的提示
-	void drawPrompt();
-
 	void closeEvent(QCloseEvent *event) override;
 
 public slots:
 	void pushPointList(QVector<CPointInfo *> * pl);
-	//void pushPoint(float x, float y, float value, float before_value, float after_value);
 	void predictStart();
 private:
 	Ui::predictResultWidget ui;
@@ -64,6 +60,8 @@ private:
 	float m_lenth;
 	float m_width;
 	float m_r;
-	QString m_evaluateMode;//评估模式，严格评估|宽松评估
+	//QString m_evaluateMode;//评估模式，严格评估|宽松评估
 	QString m_communicationStandard;
+	QVector<double> fieldList;//场强列表
+	double minField;//最小场强值
 };

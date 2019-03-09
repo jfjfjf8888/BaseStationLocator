@@ -1,5 +1,17 @@
 #pragma once
 #include <QString>
+
+//宏定义 
+#define Tricube       1
+#define Boxcar        2
+#define Gaussian      3
+#define Epanechnikov  4
+
+#define IS_DOUBLE_ZERO(d)  (abs(d) < MIN_VALUE)
+#define MIN_VALUE 1e-8
+
+#define PI            3.14159265358979323846 //pi
+
 struct predictParameter
 {
 	QString standard;//通信制式
@@ -10,9 +22,6 @@ struct predictParameter
 	QString coreFunction;//核函数
 	float predictiveStepSize;//步长
 	QString predictMethod;//预测方式 单点预测 or 区域预测
-
-	float X;//单点预测 X
-	float Y;//单点预测 Y
 };
 
 struct CPointInfo
@@ -29,4 +38,29 @@ struct CPointInfo
 	float value;
 	float before_value;
 	float after_value;
+};
+
+struct SPoint
+{
+	SPoint()
+	{
+		id = 0;
+		x = 0;
+		y = 0;
+		N = 0;
+		N_predict = 0;
+		errors = 0;
+		errors_weight = 0;
+		weight = 0;
+		weight_normalization = 0;
+	}
+	int id;
+	float x;            //X坐标
+	float y;            //Y坐标
+	float N;            //真实值
+	float N_predict;    //预测值
+	float errors;       //误差
+	float errors_weight;//误差权重
+	float weight;       //当前点的权值
+	float weight_normalization;//归一化的权值
 };

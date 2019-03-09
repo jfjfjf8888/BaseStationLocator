@@ -2,15 +2,14 @@
 #include <QPainter>
 #include <QDebug>
 
-predictResult::predictResult(QWidget * parent) : QWidget(parent) {
+predictResult::predictResult(QWidget * parent) : QWidget(parent) 
+{
 	ui.setupUi(this);
 	pointList.clear();
-	QPalette palette(this->palette());
-	palette.setColor(QPalette::Background, QColor("#B0C4DE"));
-	this->setPalette(palette);
 }
 
-predictResult::~predictResult() {
+predictResult::~predictResult() 
+{
 	
 }
 
@@ -42,9 +41,6 @@ void predictResult::paintEvent(QPaintEvent *event)
 	//着色
 	paintPredictResult();
 
-	//画提示文字
-	drawPrompt();
-
 	painter.end();
 }
 
@@ -52,6 +48,17 @@ void predictResult::paintEvent(QPaintEvent *event)
 void predictResult::pushPointList(QVector<CPointInfo *> * pl)
 {
 	this->pointList = *pl;
+
+	fieldList.clear();
+	//场强大小从大到小排序
+	for (QVector<CPointInfo *>::iterator it = pointList.begin(); it != pointList.end(); ++it) {
+		fieldList.push_back((*it)->before_value);
+	}
+	qSort(fieldList.begin(), fieldList.end());
+
+	minField = fieldList[0];
+
+	this->repaint();//重绘界面
 }
 
 void predictResult::predictStart()
@@ -63,8 +70,8 @@ void predictResult::paintPredictResult()
 {
 	if (!pointList.size())
 		return;//没有需要绘制的像素点
-	//有需要绘制的点
 
+	//有需要绘制的点
 	QPainter painter;
 	painter.begin(this);
 
@@ -74,74 +81,20 @@ void predictResult::paintPredictResult()
 
 	painter.scale(1, -1);//Y轴向上翻转，翻转成正常平面直角坐标系
 	//着色
-
-	//为了节省绘图时间，首先将所有区域绘制成绿色，循环中不对绿色进行绘制
-	QPixmap bk_pm((m_lenth / m_proportion) * 20, (m_width / m_proportion) * 20);
-	bk_pm.fill(Qt::green);
-	painter.drawPixmap(0, 0, bk_pm);
-
 	QPixmap pixmap(m_stepLenth / m_proportion * 20, m_stepLenth / m_proportion * 20);
 	//1.坐标转换，将物理坐标转换成坐标系坐标
 	for (int i = 0; i < pointList.size(); ++i)
 	{
-		//将物理坐标系转换成直角坐标系
-
-		if (pointList[i]->value < 6)
-		{
-			if ((pointList[i]->value < 6) && (pointList[i]->value >= 2))//低风险
-				pixmap.fill(Qt::yellow);
-
-			if (pointList[i]->value < 2)//不合格
-				pixmap.fill(Qt::white);
-
-			painter.drawPixmap(QPointF((pointList[i]->x / m_proportion) * 20, (pointList[i]->y / m_proportion) * 20), pixmap);
-
-		}
+		int G = (int)((pointList.at(i)->before_value - minField) * 10/* 10 *放大差值，颜色变化更明显*/);
+		if (G > 255) G = 255;
+		//场强越强越绿
+		pixmap.fill(QColor(0, G, 0));
+		painter.drawPixmap(QPointF((pointList[i]->x / m_proportion) * 20, (pointList[i]->y / m_proportion) * 20), pixmap);
 	}
 	painter.end();
 	update();
 }
 
-void predictResult::drawPrompt()
-{
-	QPainter painter;
-	painter.begin(this);
-
-	QRect rect_green(this->size().width() - 770, 20, 10, 10);
-	painter.setBrush(QBrush(Qt::green));
-	painter.drawRect(rect_green);
-	painter.drawText(this->size().width() - 750, 30, u8"干信比 > 6dB, 安全");
-
-	QRect rect_yellow(this->size().width() - 520, 20, 10, 10);
-	painter.setBrush(QBrush(Qt::yellow));
-	painter.drawRect(rect_yellow);
-	painter.drawText(this->size().width() - 500, 30, u8"6dB > 干信比 >  2dB, 有风险");
-
-	//QRect rect_orange(this->size().width() - 270, 20, 10, 10);
-	//painter.setBrush(QBrush(QColor(255, 160, 90)));//橙色
-	//painter.drawRect(rect_orange);
-	//painter.drawText(this->size().width() - 250, 30, u8" 9dB > 干信比 >  6dB, 中风险");
-
-	//QRect rect_red(this->size().width() - 770, 40, 10, 10);
-	//painter.setBrush(QBrush(Qt::red));
-	//painter.drawRect(rect_red);
-	//painter.drawText(this->size().width() - 750, 50, u8" 6dB > 干信比 >  3dB, 高风险");
-
-	//QRect rect_white(this->size().width() - 520, 40, 10, 10);
-	//painter.setBrush(QBrush(Qt::white));
-	//painter.drawRect(rect_white);
-	//painter.drawText(this->size().width() - 500, 50, u8" 3dB > 干信比, 不合格");
-
-	QRect rect_orange(this->size().width() - 270, 20, 10, 10);
-	painter.setBrush(QBrush(Qt::white));//白色
-	painter.drawRect(rect_orange);
-	painter.drawText(this->size().width() - 250, 30, u8" 2dB > 干信比, 不合格");
-
-	update();
-
-	painter.end();
-
-}
 
 void predictResult::closeEvent(QCloseEvent *event)
 {

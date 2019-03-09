@@ -26,6 +26,12 @@ BSL::BSL(QWidget *parent)
 		    &m_setting, SLOT(initCommunicationStandardComboBox(InputDataAnalysiser *)));
 	connect(&m_setting, SIGNAL(dataInputed(QString, int , float)),
 		    this, SLOT(slots_dataInputed(QString, int, float)));
+
+	connect(&pThread, SIGNAL(predictStart()),
+		&prw, SLOT(predictStart()));
+
+	connect(&pThread, SIGNAL(predictEnd(QVector<CPointInfo *> *)),
+		&prw, SLOT(pushPointList(QVector<CPointInfo *> *)));
 }
 
 BSL::~BSL()
@@ -127,12 +133,43 @@ void BSL:: on_settingToolButton_clicked()
 //运行按钮
 void BSL::on_runToolButton_clicked()
 {
+	pp.standard = m_currentStandard;
+	pp.predictModel = u8"非参数核回归";
+	pp.algorithm = u8"K近邻-非参数核回归";//算法
+	pp.hWindow = 5;//窗宽
+	pp.windowShape = u8"方形区域";
+	pp.coreFunction = "Gaussian";
+	pp.predictiveStepSize = m_currentStepLenth;
+	pp.predictMethod = u8"区域预测";
+
+	//分割m_pointList，获取每个点的坐标以及编号
+	QStringList pointXYList = m_pointList.split("-");
+	QVector<STestPoint> totalPoint = m_pAnalysiser->getTestPointTotalList();
+
+	//准备原始数据
+	for (int n = 0; n < m_nTestPointCount; ++n)
+	{
+		SPoint sp;
+		sp.id = getID(pointXYList.at(n));
+		sp.x = getX(pointXYList.at(n)) * m_proportion;
+		sp.y = getY(pointXYList.at(n)) * m_proportion;
+		sp.N = getN(totalPoint, sp.id, m_currentStandard);//测试点场强值
+		testPointList.push_back(sp);
+	}
+
+	if (pThread.isRunning())
+		pThread.terminate();//如果线程还在计算，则先终止线程
+
 	prw.setScenes(m_screenshot);
 	prw.setProportion(m_proportion);
 	prw.setStepLenth(m_currentStepLenth);
 	prw.setScenesSize(m_lenth, m_width, m_r);
 	prw.setCommunicationStandard(m_currentStandard);
 	prw.show();
+
+	pThread.setPredictData(pp, testPointList);
+	pThread.setScenesInfo(m_lenth, m_width, m_r);
+	pThread.start();//启动线程
 }
 
 void BSL::slots_scenseSelected(QString path)
@@ -192,8 +229,6 @@ void BSL::slots_scenseSelected(QString path)
 	pixmap->scaled(ui.scenesLabel->size(), Qt::KeepAspectRatio);
 	ui.scenesLabel->setScaledContents(true);
 	ui.scenesLabel->setPixmap(*pixmap);
-
-	//ui.scenesPointLabel->setPixmap(m_screenshot);
 }
 
 void BSL::slots_dataInputed(QString standard, int index, float stepLenth)
@@ -205,4 +240,35 @@ void BSL::slots_dataInputed(QString standard, int index, float stepLenth)
 	m_currentStandard = standard;
 	m_currentIndex = index;
 	m_currentStepLenth = stepLenth;
+}
+
+int BSL::getID(QString str)
+{
+	QStringList list = str.split(".");
+	return list.at(0).toInt();
+}
+float BSL::getX(QString str)
+{
+	QStringList list = str.split("(");
+	list = list.at(1).split(",");
+	//list = list.at(0).split("(");
+	return list.at(0).toFloat();
+}
+float BSL::getY(QString str)
+{
+	QStringList list = str.split("(");
+	list = list.at(1).split(",");
+	list = list.at(1).split(")");
+	return list.at(0).toFloat();
+}
+
+float BSL::getN(QVector<STestPoint> & data, int id, QString standard, int standradIndex)
+{
+	//名称 + 空格 + 制式
+	QString result_str;
+
+	//若standradIndex == -1 则表示区域预测，取当前索引作为制式的索引，否则为单点预测，最后一个参数为传入索引
+	result_str = data[id - 1].standardList[standradIndex == -1 ? m_currentIndex : standradIndex].afterTestValue;
+	QStringList temp = result_str.split("dB");
+	return temp.at(0).toFloat();
 }

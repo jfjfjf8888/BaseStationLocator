@@ -8,6 +8,7 @@
 #include "setting.h"
 #include "predictresult.hpp"
 #include "define.h"
+#include "predictThread.h"
 
 class BSL : public QMainWindow
 {
@@ -39,6 +40,12 @@ public slots:
 	void slots_dataInputed(QString standard, int index, float stepLenth);
 signals:
 	void plsInitCommunicationStandardComboBox(InputDataAnalysiser * pAnalysiser);
+private:
+	//读取从场景文件中读取的测试点信息，包括ID，X,Y
+	int getID(QString);
+	float getX(QString);
+	float getY(QString);
+	float getN(QVector<STestPoint> & data, int id, QString standard, int standradIndex = -1);
 private:
 	Ui::BSLClass ui;
 	selectScense m_selectScense;//选择场景对象
@@ -74,6 +81,12 @@ private:
 
 	//预测结果
 	predictResult prw;
+
+	//预测线程
+	predictThread pThread;
+
+	//原始数据
+	vector<SPoint> testPointList;
 };
 
 #endif // BSL_H
