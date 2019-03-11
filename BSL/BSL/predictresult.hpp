@@ -16,12 +16,7 @@ public:
 
 	void setScenesSize(float lenth, float width, float r);
 
-	//void setEvaluateMode(QString str) {
-	//	m_evaluateMode = str;
-	//	//this->setWindowTitle(QString(u8"预测评估结果") + " [" + str + "]");
-	//}
-
-	void setCommunicationStandard(QString str) {
+	inline void setCommunicationStandard(QString str) {
 		m_communicationStandard = str;
 		this->setWindowTitle(QString(u8"[" + m_communicationStandard + "]"));
 	}
@@ -32,23 +27,25 @@ public:
 	//绘制预测结果
 	void paintPredictResult();
 
+	//画定位结果
+	void paintLocateRect();
+
 	//设置约束比例，用于物理坐标向直角坐标系转换
-	void setProportion(float proportion)
-	{
-		m_proportion = proportion;
-	}
+	inline void setProportion(float proportion) { m_proportion = proportion; }
 
 	//设置步长
-	void setStepLenth(float stepLen)
-	{
-		m_stepLenth = stepLen;
-	}
+	inline void setStepLenth(float stepLen) { m_stepLenth = stepLen; }
 
 	void closeEvent(QCloseEvent *event) override;
 
 public slots:
 	void pushPointList(QVector<CPointInfo *> * pl);
 	void predictStart();
+
+	void locateStart();
+	//void locateRect(Rect * rect);
+	void locateRect(QVector<Rect> * locateResult);
+	void locateEnd();
 private:
 	Ui::predictResultWidget ui;
 
@@ -64,4 +61,6 @@ private:
 	QString m_communicationStandard;
 	QVector<double> fieldList;//场强列表
 	double minField;//最小场强值
+
+	QVector<Rect> rectList;
 };

@@ -32,6 +32,15 @@ BSL::BSL(QWidget *parent)
 
 	connect(&pThread, SIGNAL(predictEnd(QVector<CPointInfo *> *)),
 		&prw, SLOT(pushPointList(QVector<CPointInfo *> *)));
+
+	connect(&pThread, SIGNAL(locateRect(QVector<Rect> *)),
+		&prw, SLOT(locateRect(QVector<Rect> *)));
+
+	connect(&pThread, SIGNAL(locateEnd()),
+		&prw, SLOT(locateEnd()));
+
+	connect(&pThread, SIGNAL(locateStart()),
+		&prw, SLOT(locateStart()));
 }
 
 BSL::~BSL()

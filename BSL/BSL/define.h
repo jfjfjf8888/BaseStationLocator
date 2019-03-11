@@ -12,6 +12,13 @@
 
 #define PI            3.14159265358979323846 //pi
 
+#define __INPUT__
+#define __OUTPUT__
+
+#define PART_OF_AREA 0.1 //临界面积
+#define PART_OF_LENTH 0.8 //缩圈比例
+#define PART_OF_FEILD 0.8 //缩圈临界场强比例
+
 struct predictParameter
 {
 	QString standard;//通信制式
@@ -63,4 +70,12 @@ struct SPoint
 	float errors_weight;//误差权重
 	float weight;       //当前点的权值
 	float weight_normalization;//归一化的权值
+};
+
+struct Rect
+{
+	float startX;
+	float startY;
+	float lenth;
+	float width;
 };

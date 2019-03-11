@@ -16,11 +16,13 @@ public:
 		vector<SPoint> & pointList);
 	void run() override;
 	void setScenesInfo(float lenth, float width, float r);
-	void locate();
+	void locate(const QVector<CPointInfo *> & predictResult, Rect & rect);
 signals:
 	void predictStart();
 	void predictEnd(QVector<CPointInfo *> * );
-
+	void locateStart();
+	void locateRect(QVector<Rect> * locateResult);
+	void locateEnd();
 private:
 	//获取预测函数ID
 	int getFuncId();
@@ -36,6 +38,15 @@ private:
 
 	//判断传入坐标是否在原始数据中，存在返回true，不存在返回false
 	bool isPointExist(float x, float y);
+
+	void myQuickSortByFeild(QVector<CPointInfo *> &vec, int low, int high);
+	void myQuickSortByX(QVector<CPointInfo *> &vec, int low, int high);
+	void myQuickSortByY(QVector<CPointInfo *> &vec, int low, int high);
+
+	//获取矩形包含的所有点
+	void foundRectPointList(const QVector<CPointInfo *> & __INPUT__ predictResult, QVector<CPointInfo *> & __OUTPUT__ rectPointList, Rect & rect);
+	//统计Rect中超过临界值点的个数
+	int rectPointListFeildMaxThancriticalCount(QVector<CPointInfo *> & rectPointList, double criticalField);
 private:
 	predictParameter m_pp;
 	vector<SPoint> m_pointList;
@@ -46,6 +57,7 @@ private:
 	QVector<CPointInfo *> pointList;//预测结果列表
 	QVector<CPointInfo *> result;//K近邻非参数核回归专用！！！
 	
-	//单点预测时使用
+	int rectIndex;
+	QVector<Rect> locateResult;
 };
 
