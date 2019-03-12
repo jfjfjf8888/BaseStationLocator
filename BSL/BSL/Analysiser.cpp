@@ -1,6 +1,6 @@
 #include "Analysiser.h"
 #include <QDebug>
-
+#include <algorithm>
 
 InputDataAnalysiser::InputDataAnalysiser()
 {
@@ -137,6 +137,84 @@ QString InputDataAnalysiser::average(QVector<STrackPoint> & trackLine, int flag)
 	return QString::number(dbTotolValue / nTotal) + "dBmV";
 }
 
+void InputDataAnalysiser::averageTopXValue(int x)
+{
+	topX = x;
+
+	for (int i = 0; i < m_testPointList.size(); ++i)
+	{
+		for (int j = 0; j < m_testPointList[i].standardList.size(); ++j)
+		{
+			STestStandard & ststd = m_testPointList[i].standardList[j];
+
+			//ststd.beforeTestValue = trackLineTopXAverage(ststd.trackLine, 1);
+			//ststd.afterTestValue = trackLineTopXAverage(ststd.trackLine, 2);
+	
+			QVector<double> trackLinedb_before, trackLinedb_after;
+			for (int i = 0; i < ststd.trackLine.size(); ++i) 
+			{
+				trackLinedb_before.push_back(strFieldToDouble(ststd.trackLine[i].beforeTestValue));
+				trackLinedb_after.push_back(strFieldToDouble(ststd.trackLine[i].afterTestValue));
+			}
+			qSort(trackLinedb_before.begin(), trackLinedb_before.end());
+			qSort(trackLinedb_after.begin(), trackLinedb_after.end());
+
+			std::reverse(trackLinedb_before.begin(), trackLinedb_before.end());
+			std::reverse(trackLinedb_after.begin(), trackLinedb_after.end());
+
+			double beforeTestValue = 0, afterTestValue = 0;
+			for (int n = 0; n < x; ++n)
+			{
+				beforeTestValue += trackLinedb_before[n];
+				afterTestValue += trackLinedb_after[n];
+			}
+			ststd.beforeTestValue = QString::number(beforeTestValue / x) + "dBmV";
+			ststd.afterTestValue = QString::number(afterTestValue / x) + "dBmV";
+		}
+	}
+}
+
+//void InputDataAnalysiser::myQuickSortByFeild(QVector<STrackPoint> & trackLine, int low, int high, int flag)
+//{
+//	if (low < high)
+//	{
+//		int l = low;
+//		int r = high;
+//		STrackPoint key = trackLine[l];//记录key值
+//
+//		while (l < r)
+//		{
+//			while (l < r && strFieldToDouble(1 == flag ? key.beforeTestValue : key.afterTestValue)
+//				<= strFieldToDouble(1 == flag ? trackLine[l].beforeTestValue : trackLine[l].afterTestValue))//从右往左遍历,找到第一个小于key的元素
+//				--r;
+//			trackLine[l] = trackLine[r];
+//			while (l < r && strFieldToDouble(1== flag ? key.beforeTestValue : key.afterTestValue) 
+//				>= strFieldToDouble(1 == flag ? trackLine[l].beforeTestValue : trackLine[l].afterTestValue))//从左往右遍历,找到第一个大于key值的元素
+//				++l;
+//			trackLine[r] = trackLine[l];
+//		}
+//		trackLine[l] = key;//其实此时l=r
+//
+//		myQuickSortByFeild(trackLine, low, l - 1, flag);
+//		myQuickSortByFeild(trackLine, r + 1, high, flag);
+//	}
+//}
+//
+//QString InputDataAnalysiser::trackLineTopXAverage(QVector<STrackPoint> & trackLine, int flag)
+//{
+//	double dbTotolValue = 0;
+//	
+//	myQuickSortByFeild(trackLine, 0, trackLine.size() - 1, flag);
+//
+//	for (int n = 299; n > 299 - topX; --n) {
+//		if (1 == flag)
+//			dbTotolValue += strFieldToDouble(trackLine[n].beforeTestValue);
+//		else if (2 == flag)
+//			dbTotolValue += strFieldToDouble(trackLine[n].afterTestValue);
+//	}
+//	return QString::number(dbTotolValue / topX) + "dBmV";
+//}
+
 void InputDataAnalysiser::readTestPointContext()
 {
 	QByteArray line = m_buffer.readLine();
@@ -220,34 +298,7 @@ void InputDataAnalysiser::CorrectionData()
 }
 
 QString InputDataAnalysiser::MinAfterTestValue(QVector<STrackPoint> & stpList)
-{//冒泡排序,找最小值返回
-
-	//此处冒泡排序不能传引用，会打乱原始数据，另外，冒泡排序太慢。由于只需要找最小值，故不用
-	//冒泡排序，用原始方法，提高运行效率
-
-	//STrackPoint temp;
-	//for (int i = 1; i < (int)stpList.size(); i++)
-	//{
-	//	for (int j = (int)stpList.size() - 1; j >= i; j--)
-	//	{
-	//		//if (atoi(flavorList[j].flavorName.c_str() + 6) < atoi(flavorList[j - 1].flavorName.c_str() + 6))
-	//		//{
-	//		//	temp = flavorList[j - 1];
-	//		//	flavorList[j - 1] = flavorList[j];
-	//		//	flavorList[j] = temp;
-	//		//}
-
-	//		if (getdbValue(stpList[j].afterTestValue) < getdbValue(stpList[j - 1].afterTestValue))
-	//		{
-	//			temp = stpList[j - 1];
-	//			stpList[j - 1] = stpList[j];
-	//			stpList[j] = temp;
-	//		}
-
-	//	}
-	//}
-
-	//return stpList[0].afterTestValue;
+{//找最小值返回
 	QString minValue = stpList[0].afterTestValue;
 	for (int i = 1; i < stpList.size(); ++i)
 	{
@@ -265,4 +316,11 @@ float InputDataAnalysiser::getdbValue(QString str)
 	if (list.isEmpty())
 		return 0;
 	return list.at(0).toFloat();
+}
+
+double InputDataAnalysiser::strFieldToDouble(QString str)
+{
+	QStringList list = str.split("dB");
+
+	return list[0].toDouble();
 }

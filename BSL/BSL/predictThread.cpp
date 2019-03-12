@@ -276,15 +276,15 @@ void predictThread::locate(const QVector<CPointInfo *> & predictResult, Rect & r
 	bool hasData = false;
 
 	//缩圈过程
-	for (float x = rect.startX; x <= (rect.startX + rect.lenth); x += m_pp.predictiveStepSize)
+	for (float x = rect.startX; x < (rect.startX + rect.lenth); x += m_pp.predictiveStepSize)
 	{//X方向扫描
-		if (cycleLenth + x > rect.lenth) 
-			break;
+		//if (cycleLenth + x > rect.lenth) 
+		//	continue;
 
-		for (float y = rect.startY; y <= (rect.startY + rect.width); y += m_pp.predictiveStepSize)
+		for (float y = rect.startY; y < (rect.startY + rect.width); y += m_pp.predictiveStepSize)
 		{//Y方向扫描
-			if (cycleWidth + y > rect.width) 
-				break;
+			//if (cycleWidth + y > rect.width) 
+			//	continue;
 
 			QVector<CPointInfo *> tempRectData;
 			Rect tempRect;

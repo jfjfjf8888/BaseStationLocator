@@ -106,20 +106,10 @@ void predictResult::paintLocateRect()
 	painter.translate(20, windowsSize.height() - 20);
 
 	painter.scale(1, -1);//Y轴向上翻转，翻转成正常平面直角坐标系
-	painter.setPen(Qt::red);
-						 //着色
-	//QPixmap pixmap(m_stepLenth / m_proportion * 20, m_stepLenth / m_proportion * 20);
-	//QRectF rect();
-	//1.坐标转换，将物理坐标转换成坐标系坐标
-	//painter.drawRect((rectList[0].startX / m_proportion) * 20, (rectList[0].startY / m_proportion) * 20,
-	//	(rectList[0].lenth / m_proportion) * 20, (rectList[0].width / m_proportion) * 20);
+	painter.setPen(QPen(Qt::red, 2, Qt::DashDotLine));
+	//画圈
 	for (int i = 0; i < rectList.size(); ++i)
 	{
-		//int G = (int)((pointList.at(i)->before_value - minField) * 10/* 10 *放大差值，颜色变化更明显*/);
-		//if (G > 255) G = 255;
-		//场强越强越绿
-		//pixmap.fill(QColor(0, G, 0));
-		//painter.drawPixmap(QPointF((pointList[i]->x / m_proportion) * 20, (pointList[i]->y / m_proportion) * 20), pixmap);
 		painter.drawRect((rectList[i].startX / m_proportion) * 20, (rectList[i].startY / m_proportion) * 20, 
 			(rectList[i].lenth / m_proportion) * 20, (rectList[i].width / m_proportion) * 20);
 	}

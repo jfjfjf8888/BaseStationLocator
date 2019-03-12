@@ -41,6 +41,9 @@ BSL::BSL(QWidget *parent)
 
 	connect(&pThread, SIGNAL(locateStart()),
 		&prw, SLOT(locateStart()));
+
+	//程序启动，弹出加载场景按钮
+	//on_loadSencesToolButton_clicked();
 }
 
 BSL::~BSL()
@@ -132,6 +135,9 @@ void BSL::on_loadFileToolButton_clicked()
 
 	ui.statusBar->showMessage(u8"预处理测试数据完成。");
 	emit(plsInitCommunicationStandardComboBox(m_pAnalysiser));
+	
+	//预处理完成，弹出设置界面
+	on_settingToolButton_clicked();
 }
 
 void BSL:: on_settingToolButton_clicked()
@@ -153,8 +159,11 @@ void BSL::on_runToolButton_clicked()
 
 	//分割m_pointList，获取每个点的坐标以及编号
 	QStringList pointXYList = m_pointList.split("-");
-	QVector<STestPoint> totalPoint = m_pAnalysiser->getTestPointTotalList();
 
+	//m_pAnalysiser->averageTopXValue(50);
+	m_pAnalysiser->averageTestValue(u8"宽松评估");//经过大量测试，场强值取轨迹线平均值准确度最高
+
+	QVector<STestPoint> totalPoint = m_pAnalysiser->getTestPointTotalList();
 	//准备原始数据
 	for (int n = 0; n < m_nTestPointCount; ++n)
 	{
@@ -238,6 +247,9 @@ void BSL::slots_scenseSelected(QString path)
 	pixmap->scaled(ui.scenesLabel->size(), Qt::KeepAspectRatio);
 	ui.scenesLabel->setScaledContents(true);
 	ui.scenesLabel->setPixmap(*pixmap);
+
+	//场景加载完成，启动添加文件按钮
+	//on_loadFileToolButton_clicked();
 }
 
 void BSL::slots_dataInputed(QString standard, int index, float stepLenth)
@@ -249,6 +261,9 @@ void BSL::slots_dataInputed(QString standard, int index, float stepLenth)
 	m_currentStandard = standard;
 	m_currentIndex = index;
 	m_currentStepLenth = stepLenth;
+
+	//设置完成，开始预测
+	on_runToolButton_clicked();
 }
 
 int BSL::getID(QString str)

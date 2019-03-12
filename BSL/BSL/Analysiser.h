@@ -108,6 +108,13 @@ public:
 
 	//对轨迹线数据取平均，1代表取屏蔽钱数据，2代表去屏蔽后数据
 	QString average(QVector<STrackPoint> & trackLine, int flag);
+
+	//取数据时，在轨迹线中取前十平均
+	void averageTopXValue(int x);
+	//QString trackLineTopXAverage(QVector<STrackPoint> & trackLine, int flag);
+
+	//1代表取屏蔽钱数据，2代表去屏蔽后数据
+	//void myQuickSortByFeild(QVector<STrackPoint> & trackLine, int low, int high, int flag);
 private:
 
 	//读取测试点个数
@@ -133,6 +140,8 @@ private:
 
 	//传入场强字符串(带单位)，返回场强值，float格式
 	float getdbValue(QString str);
+
+	double strFieldToDouble(QString str);
 private:
 	QVector<QByteArray> m_data;//输入buffer
 	QVector<SStandard> m_standardList;//制式列表
@@ -140,6 +149,8 @@ private:
 	QVector<STestPoint> m_testPointListCopy;//测试点列表，包含轨迹线
 	QBuffer m_buffer;
 	int m_nTestPointCount;//测试点数
+
+	int topX;
 };
 
 #endif // ANALYSISER_H
