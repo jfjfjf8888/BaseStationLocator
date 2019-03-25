@@ -17,7 +17,7 @@
 
 #define PART_OF_AREA 0.01 //临界面积
 #define PART_OF_LENTH 0.8 //缩圈比例
-#define PART_OF_FEILD 0.8 //缩圈临界场强比例
+#define PART_OF_FEILD 0.9 //缩圈临界场强比例
 #define TOP_X 10
 
 
